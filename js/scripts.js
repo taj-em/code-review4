@@ -69,7 +69,6 @@ function pizzaCreation(event) {
   event.preventDefault();
   const toppings = document.querySelectorAll(".topping");
   const pizzaSize = document.querySelector("input[name='pizza-size']:checked").value;
-  console.log(Object.keys(dataBase.orders).length)
   const currentOrder = dataBase.orders[Object.keys(dataBase.orders).length];
   let pizzaCount = 0;
   let orderPrice = 0;
@@ -87,7 +86,8 @@ function pizzaCreation(event) {
         orderPrice += pizza.price
       });
       currentOrder.price = orderPrice;
-      displayPrice(currentOrder.pizzas[Object.keys(currentOrder.pizzas).length]);
+      displayPrice(currentOrder);
+      displayOrder(currentOrder);
     }
   }
 }
@@ -100,7 +100,23 @@ function displayPrice(currentOrder) {
 
 function displayOrder(currentOrder) {
   const display = document.getElementById("display-order")
-  display.innerText = "Pizza #" + currentOrder.pizzas[(currentOrder.pizzas).length];
+  const pizzaDisplay = document.getElementById("display-pizza")
+  let pizzaKeys = Object.keys(currentOrder.pizzas);
+  pizzaKeys.forEach(ID => {
+    pizzaDisplay.innerText += "Pizza #" + ID + "\n";
+    let pizzaValues = Object.values(currentOrder.pizzas[ID].toppingObj);
+    pizzaValues.forEach(topping => {
+      if (topping === "1") {
+        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Extra Cheese";
+      } else if (topping === "2") {
+        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Pepperoni";
+      } else if (topping === "3") {
+        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Sausage";
+      }
+    })
+  });
+  pizzaValues = Object.keys(currentOrder.pizzas);
+  display.innerText = "Order #" + currentOrder.id + "\nOrder Name: " + currentOrder.orderName + "\nPizzas: " + currentOrder.orderSize + "\n";
 }
 
 window.addEventListener("load", function () {
