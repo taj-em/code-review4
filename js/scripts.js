@@ -36,7 +36,7 @@ function Pizza(pizzaSize, toppingObj) {
   this.toppingObj = toppingObj;
 }
 
-Pizza.prototype.getPrice = function() {
+Pizza.prototype.getPrice = function () {
   let toppingSum = 0;
   let toppingArray = Object.values(this.toppingObj).map(Number);
   toppingArray.forEach(topping => {
@@ -53,36 +53,41 @@ function makeOrder(orderName, orderSize,) {
 
 function makePizza(pizzaSize, toppingObj) {
   let newPizza = new Pizza(pizzaSize, toppingObj);
-  dataBase.orders[1].addPizza(newPizza);
+  dataBase.orders[Object.keys(dataBase.orders).length].addPizza(newPizza);
 }
 
 let dataBase = new DataBase();
 
 function orderCreation(event) {
-event.preventDefault();
-const orderName = document.getElementById("order-name").value;
-const orderSize = document.getElementById("order-size").value;
-makeOrder(orderName, orderSize);
+  event.preventDefault();
+  const orderName = document.getElementById("order-name").value;
+  const orderSize = document.getElementById("order-size").value;
+  makeOrder(orderName, orderSize);
 }
 
 function pizzaCreation(event) {
   event.preventDefault();
   const toppings = document.querySelectorAll(".topping");
   const pizzaSize = document.querySelector("input[name='pizza-size']:checked").value;
-let toppingObj = {};
-for (let index = 0; index < toppings.length; index += 1) {
-  if (toppings[index].checked === true)
-  toppingObj[index] = toppings[index].value;
-}
-makePizza(pizzaSize, toppingObj);
-}
+  let currentOrder = dataBase.orders.order[Object.keys(dataBase.orders).length];
+  let toppingObj = {};
+  for (let index = 0; index < toppings.length; index += 1) {
+    if (toppings[index].checked === true)
+      toppingObj[index] = toppings[index].value;
+  }Object.keys(dataBase.orders).length
+  if (Object.keys(currentOrder.pizzas).length < currentOrder.orderSize) {
+  makePizza(pizzaSize, toppingObj);
+} else {
+  displayPrice(currentOrder);
+}}
 
-function displayPrice(order) {
+function displayPrice(currentOrder) {
   const display = document.getElementById("display-price");
-  display.innerText = order.price;
+  const priceArray = Object.values(currentOrder.pizzas);
+  display.innerText = currentOrder.price;
 }
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   this.document.getElementById("make-order").addEventListener("submit", orderCreation)
   this.document.getElementById("make-pizza").addEventListener("submit", pizzaCreation)
 });
