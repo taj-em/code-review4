@@ -69,21 +69,27 @@ function pizzaCreation(event) {
   event.preventDefault();
   const toppings = document.querySelectorAll(".topping");
   const pizzaSize = document.querySelector("input[name='pizza-size']:checked").value;
-  let currentOrder = dataBase.orders.order[Object.keys(dataBase.orders).length];
+  console.log(Object.keys(dataBase.orders).length)
+  let currentOrder = dataBase.orders[Object.keys(dataBase.orders).length];
+  let pizzaArray = Object.values(currentOrder.pizzas)
+  let orderPrice = 0;
   let toppingObj = {};
   for (let index = 0; index < toppings.length; index += 1) {
     if (toppings[index].checked === true)
       toppingObj[index] = toppings[index].value;
-  }Object.keys(dataBase.orders).length
+  }
   if (Object.keys(currentOrder.pizzas).length < currentOrder.orderSize) {
   makePizza(pizzaSize, toppingObj);
 } else {
+  pizzaArray.forEach(pizza => {
+    orderPrice += pizza.price
+  });
+  currentOrder.price = orderPrice;
   displayPrice(currentOrder);
 }}
 
 function displayPrice(currentOrder) {
   const display = document.getElementById("display-price");
-  const priceArray = Object.values(currentOrder.pizzas);
   display.innerText = currentOrder.price;
 }
 
