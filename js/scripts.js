@@ -5,8 +5,9 @@ function DataBase() {
 
 DataBase.prototype.addOrder = function (order) {
   order.id = this.assignId();
-  order.price = order.getPrice(order.toppingObj);
+  order.price = order.getPrice();
   this.orders[order.id] = order;
+  displayPrice(this.orders[order.id])
 }
 
 DataBase.prototype.assignId = function () {
@@ -20,15 +21,15 @@ function Order(orderName, orderSize, toppingObj) {
   this.orderSize = orderSize;
 }
 
-Order.prototype.getPrice = function(toppingObj) {
+Order.prototype.getPrice = function() {
   let toppingSum = 0;
-  let toppingArray = Object.values(toppingObj);
+  let toppingArray = Object.values(this.toppingObj);
   let integerArray = toppingArray.map(Number);
   integerArray.forEach(topping => {
     toppingSum += topping;
   });
-  const orderSize = this.orderSizesize;
-  let price = toppingSum + orderSize;
+  const orderSize = this.orderSize;
+  let price = toppingSum + parseInt(orderSize);
   return price;
 }
 
@@ -54,6 +55,11 @@ for (let index = 0; index < toppings.length; index += 1) {
   toppingObj[index] = toppings[index].value;
 }
 makeOrder(orderName, orderSize, toppingObj);
+}
+
+function displayPrice(order) {
+  const display = document.getElementById("display-price");
+  display.innerText = order.price;
 }
 
 window.addEventListener("load", function() {
