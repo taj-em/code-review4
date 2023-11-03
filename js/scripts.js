@@ -103,19 +103,18 @@ function displayOrder(currentOrder) {
   const pizzaDisplay = document.getElementById("display-pizza")
   let pizzaKeys = Object.keys(currentOrder.pizzas);
   pizzaKeys.forEach(ID => {
-    pizzaDisplay.innerText += "Pizza #" + ID + "\n";
+    pizzaDisplay.innerText += "\nPizza #" + ID + "\n";
     let pizzaValues = Object.values(currentOrder.pizzas[ID].toppingObj);
-    pizzaValues.forEach(topping => {
-      if (topping === "1") {
-        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Extra Cheese";
-      } else if (topping === "2") {
-        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Pepperoni";
-      } else if (topping === "3") {
-        pizzaDisplay.innerText += "Topping #" + topping.keys + 1 + ": Sausage";
+      for (let toppingNum = 1; toppingNum <= pizzaValues.length; toppingNum += 1) {
+      if (pizzaValues[toppingNum - 1] === "1") {
+        pizzaDisplay.innerText += "Topping #" + toppingNum + ": Extra Cheese\n";
+      } else if (pizzaValues[toppingNum - 1] === "2") {
+        pizzaDisplay.innerText += "Topping #" + toppingNum + ": Pepperoni\n";
+      } else if (pizzaValues[toppingNum - 1] === "3") {
+        pizzaDisplay.innerText += "Topping #" + toppingNum + ": Sausage\n";
       }
-    })
-  });
-  pizzaValues = Object.keys(currentOrder.pizzas);
+    }
+  })
   display.innerText = "Order #" + currentOrder.id + "\nOrder Name: " + currentOrder.orderName + "\nPizzas: " + currentOrder.orderSize + "\n";
 }
 
