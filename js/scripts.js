@@ -5,6 +5,7 @@ function DataBase() {
 
 DataBase.prototype.addOrder = function (order) {
   order.id = this.assignId();
+  order.price = order.getPrice(order.toppingObj);
   this.orders[order.id] = order;
 }
 
@@ -19,11 +20,20 @@ function Order(orderName, orderSize, toppingObj) {
   this.orderSize = orderSize;
 }
 
-Order.prototype.calcPrice = function() {
-  const toppings = this.toppings;
-  const size = this.size;
-  let price = toppings + size;
+Order.prototype.getPrice = function(toppingObj) {
+  let toppingSum = 0;
+  let toppingArray = Object.values(toppingObj);
+  let integerArray = toppingArray.map(Number);
+  integerArray.forEach(topping => {
+    toppingSum += topping;
+  });
+  const orderSize = this.orderSizesize;
+  let price = toppingSum + orderSize;
   return price;
+}
+
+function calculatePrice(order) {
+
 }
 
 function makeOrder(orderName, orderSize, toppingObj) {
@@ -40,6 +50,7 @@ const orderSize = document.querySelector("input[name='order-size']:checked").val
 const toppings = document.querySelectorAll(".topping");
 let toppingObj = {};
 for (let index = 0; index < toppings.length; index += 1) {
+  if (toppings[index].checked === true)
   toppingObj[index] = toppings[index].value;
 }
 makeOrder(orderName, orderSize, toppingObj);
