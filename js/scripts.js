@@ -5,9 +5,7 @@ function DataBase() {
 
 DataBase.prototype.addOrder = function (order) {
   order.id = this.assignId();
-  order.price = order.getPrice();
   this.orders[order.id] = order;
-  displayPrice(this.orders[order.id])
 }
 
 DataBase.prototype.assignId = function () {
@@ -15,17 +13,33 @@ DataBase.prototype.assignId = function () {
   return this.currentId;
 }
 
-function Order(orderName, orderSize, toppingObj) {
+function Order(orderName, orderSize) {
   this.orderName = orderName;
-  this.toppingObj = toppingObj;
   this.orderSize = orderSize;
+  this.pizzas = {};
+  this.pizzaNum = 0;
 }
 
-Order.prototype.getPrice = function() {
+Order.prototype.getPizzaNum = function () {
+  this.pizzaNum += 1;
+  return this.pizzaNum;
+}
+
+Order.prototype.addPizza = function (pizza) {
+  pizza.id = this.getPizzaNum();
+  pizza.price = pizza.getPrice();
+  this.pizzas[pizza.id] = pizza;
+}
+
+function Pizza(pizzaSize, toppingObj) {
+  this.pizzaSize = pizzaSize;
+  this.toppingObj = toppingObj;
+}
+
+Pizza.prototype.getPrice = function() {
   let toppingSum = 0;
-  let toppingArray = Object.values(this.toppingObj);
-  let integerArray = toppingArray.map(Number);
-  integerArray.forEach(topping => {
+  let toppingArray = Object.values(this.toppingObj).map(Number);
+  toppingArray.forEach(topping => {
     toppingSum += topping;
   });
   const orderSize = this.orderSize;
@@ -33,28 +47,35 @@ Order.prototype.getPrice = function() {
   return price;
 }
 
-function calculatePrice(order) {
-
+function makeOrder(orderName, orderSize,) {
+  let newOrder = new Order(orderName, orderSize);
+  dataBase.addOrder(newOrder);
 }
 
-function makeOrder(orderName, orderSize, toppingObj) {
-  let newOrder = new Order(orderName, orderSize, toppingObj);
-  dataBase.addOrder(newOrder);
+function makePizza(pizzaSize, toppingObj) {
+  let newPizza = new Pizza(pizzaSize, toppingObj);
+  newOrder.addPizza(newPizza);
 }
 
 let dataBase = new DataBase();
 
-function handleSubmission(event) {
+function orderCreation(event) {
 event.preventDefault();
 const orderName = document.getElementById("order-name").value;
-const orderSize = document.querySelector("input[name='order-size']:checked").value;
-const toppings = document.querySelectorAll(".topping");
+const orderSize = document.getElementById("order-size").value;
+makeOrder(orderName, orderSize);
+}
+
+function pizzaCreation(event) {
+  event.preventDefault();
+  const toppings = document.querySelectorAll(".topping");
+  const pizzaSize = document.querySelector("input[name='pizza-size']:checked").value;
 let toppingObj = {};
 for (let index = 0; index < toppings.length; index += 1) {
   if (toppings[index].checked === true)
   toppingObj[index] = toppings[index].value;
 }
-makeOrder(orderName, orderSize, toppingObj);
+makePizza(pizzaSize, toppingObj);
 }
 
 function displayPrice(order) {
@@ -63,5 +84,6 @@ function displayPrice(order) {
 }
 
 window.addEventListener("load", function() {
-  this.document.getElementById("make-order").addEventListener("submit", handleSubmission)
+  this.document.getElementById("make-order").addEventListener("submit", makeOrder)
+  this.document.getElementById("make-pizza").addEventListener("submit", makePizza)
 });
