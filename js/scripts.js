@@ -42,8 +42,7 @@ Pizza.prototype.getPrice = function() {
   toppingArray.forEach(topping => {
     toppingSum += topping;
   });
-  const orderSize = this.orderSize;
-  let price = toppingSum + parseInt(orderSize);
+  let price = toppingSum + parseInt(this.pizzaSize);
   return price;
 }
 
@@ -54,7 +53,7 @@ function makeOrder(orderName, orderSize,) {
 
 function makePizza(pizzaSize, toppingObj) {
   let newPizza = new Pizza(pizzaSize, toppingObj);
-  newOrder.addPizza(newPizza);
+  dataBase.orders[1].addPizza(newPizza);
 }
 
 let dataBase = new DataBase();
@@ -84,6 +83,6 @@ function displayPrice(order) {
 }
 
 window.addEventListener("load", function() {
-  this.document.getElementById("make-order").addEventListener("submit", makeOrder)
-  this.document.getElementById("make-pizza").addEventListener("submit", makePizza)
+  this.document.getElementById("make-order").addEventListener("submit", orderCreation)
+  this.document.getElementById("make-pizza").addEventListener("submit", pizzaCreation)
 });
