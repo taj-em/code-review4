@@ -70,27 +70,37 @@ function pizzaCreation(event) {
   const toppings = document.querySelectorAll(".topping");
   const pizzaSize = document.querySelector("input[name='pizza-size']:checked").value;
   console.log(Object.keys(dataBase.orders).length)
-  let currentOrder = dataBase.orders[Object.keys(dataBase.orders).length];
-  let pizzaArray = Object.values(currentOrder.pizzas)
+  const currentOrder = dataBase.orders[Object.keys(dataBase.orders).length];
+  let pizzaCount = 0;
   let orderPrice = 0;
   let toppingObj = {};
   for (let index = 0; index < toppings.length; index += 1) {
     if (toppings[index].checked === true)
       toppingObj[index] = toppings[index].value;
   }
-  if (Object.keys(currentOrder.pizzas).length < currentOrder.orderSize) {
-  makePizza(pizzaSize, toppingObj);
-} else {
-  pizzaArray.forEach(pizza => {
-    orderPrice += pizza.price
-  });
-  currentOrder.price = orderPrice;
-  displayPrice(currentOrder);
-}}
+  if (pizzaCount < currentOrder.orderSize) {
+    makePizza(pizzaSize, toppingObj);
+    pizzaCount = Object.keys(currentOrder.pizzas).length
+    if (pizzaCount === parseInt(currentOrder.orderSize)) {
+      let pizzaArray = Object.values(currentOrder.pizzas);
+      pizzaArray.forEach(pizza => {
+        orderPrice += pizza.price
+      });
+      currentOrder.price = orderPrice;
+      displayPrice(currentOrder.pizzas[Object.keys(currentOrder.pizzas).length]);
+    }
+  }
+}
 
 function displayPrice(currentOrder) {
   const display = document.getElementById("display-price");
   display.innerText = currentOrder.price;
+  // displayOrder(currentOrder);
+}
+
+function displayOrder(currentOrder) {
+  const display = document.getElementById("display-order")
+  display.innerText = "Pizza #" + currentOrder.pizzas[(currentOrder.pizzas).length];
 }
 
 window.addEventListener("load", function () {
