@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+  <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <script src="js/scripts.js"></script>
   <meta charset="UTF-8">
@@ -11,39 +11,48 @@
 </head>
 
 <body>
-  <h1>Pizza Parlor</h1>
-  <form id="make-order">
-    <input type="text" id="order-name" placeholder="Enter Your Name:">
-    <br>
-    <label for="order-size"># of Pizzas:
-      <input type="number" id="order-size" min="0" max="5">
-    </label>
-    <button type="submit">Create Order</button>
-  </form>
-  <br>
-  <form id="make-pizza">
-  <label for="18-inch">
-    <input type="radio" id="18-inch" value="8" name="pizza-size" checked>18 Inch:
-  </label>
-  <label for="14-inch">
-    <input type="radio" id="14-inch" value="6" name="pizza-size">14 Inch:
-  </label>
-  <br>
-  <label for="xtra-cheese">Extra Cheese
-    <input type="checkbox" id="xtra-cheese" value="1" class="topping">
-  </label>
-  <label for="pepperoni">Pepperoni
-    <input type="checkbox" id="pepperoni" value="2" class="topping">
-  </label>
-  <label for="sausage">Sausage
-    <input type="checkbox" id="sausage" value="3" class="topping">
-  </label>
-  <button type="submit">Create Pizza</button>
-  </form>
-
-  <p>Price: $<span id="display-price">0</span>.00</p>
-  <p>Your Order: <span id="display-order"></span></p>
-  <p><span id="display-pizza"></span></p>
+  <div class="container">
+    <div class="row">
+      <h1>Pizza Parlor</h1>
+      <div id="order-div" class="col">
+        <form id="make-order">
+          <input type="text" id="order-name" placeholder="Enter Your Name:">
+          <br>
+          <label for="order-size"># of Pizzas:
+            <input type="number" id="order-size" min="0" max="5">
+          </label>
+          <button type="submit">Create Order</button>
+        </form>
+      </div>
+      <br>
+      <div id="pizza-div" class="col hidden">
+        <form id="make-pizza">
+          <label for="18-inch">
+            <input type="radio" id="18-inch" value="8" name="pizza-size" checked>18 Inch:
+          </label>
+          <label for="14-inch">
+            <input type="radio" id="14-inch" value="6" name="pizza-size">14 Inch:
+          </label>
+          <br>
+          <label for="xtra-cheese">Extra Cheese
+            <input type="checkbox" id="xtra-cheese" value="1" class="topping">
+          </label>
+          <label for="pepperoni">Pepperoni
+            <input type="checkbox" id="pepperoni" value="2" class="topping">
+          </label>
+          <label for="sausage">Sausage
+            <input type="checkbox" id="sausage" value="3" class="topping">
+          </label>
+          <button type="submit">Create Pizza</button>
+        </form>
+      </div>
+      <div id="display-div" class="row">
+        <p>Price: $<span id="display-price">0</span>.00</p>
+        <p>Your Order: <span id="display-order"></span></p>
+        <p><span id="display-pizza"></span></p>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -46,6 +46,8 @@ Pizza.prototype.getPrice = function () {
   return price;
 }
 
+let dataBase = new DataBase();
+
 function makeOrder(orderName, orderSize,) {
   let newOrder = new Order(orderName, orderSize);
   dataBase.addOrder(newOrder);
@@ -56,14 +58,17 @@ function makePizza(pizzaSize, toppingObj) {
   dataBase.orders[Object.keys(dataBase.orders).length].addPizza(newPizza);
 }
 
-let dataBase = new DataBase();
+
 
 function orderCreation(event) {
   event.preventDefault();
   const orderName = document.getElementById("order-name").value;
   const orderSize = document.getElementById("order-size").value;
   makeOrder(orderName, orderSize);
+  document.getElementById("order-div").classList.add("hidden");
+  document.getElementById("pizza-div").classList.remove("hidden");
 }
+
 
 function pizzaCreation(event) {
   event.preventDefault();
@@ -88,6 +93,8 @@ function pizzaCreation(event) {
       currentOrder.price = orderPrice;
       displayPrice(currentOrder);
       displayOrder(currentOrder);
+      document.getElementById("pizza-div").classList.add("hidden");
+      document.getElementById("display-div").classList.remove("hidden");
     }
   }
 }
@@ -95,7 +102,6 @@ function pizzaCreation(event) {
 function displayPrice(currentOrder) {
   const display = document.getElementById("display-price");
   display.innerText = currentOrder.price;
-  // displayOrder(currentOrder);
 }
 
 function displayOrder(currentOrder) {
@@ -103,9 +109,9 @@ function displayOrder(currentOrder) {
   const pizzaDisplay = document.getElementById("display-pizza")
   let pizzaKeys = Object.keys(currentOrder.pizzas);
   pizzaKeys.forEach(ID => {
-    pizzaDisplay.innerText += "\nPizza #" + ID + "\n";
+    pizzaDisplay.innerText += "\nPizza #" + ID + ": \n";
     let pizzaValues = Object.values(currentOrder.pizzas[ID].toppingObj);
-      for (let toppingNum = 1; toppingNum <= pizzaValues.length; toppingNum += 1) {
+    for (let toppingNum = 1; toppingNum <= pizzaValues.length; toppingNum += 1) {
       if (pizzaValues[toppingNum - 1] === "1") {
         pizzaDisplay.innerText += "Topping #" + toppingNum + ": Extra Cheese\n";
       } else if (pizzaValues[toppingNum - 1] === "2") {
@@ -121,4 +127,5 @@ function displayOrder(currentOrder) {
 window.addEventListener("load", function () {
   this.document.getElementById("make-order").addEventListener("submit", orderCreation)
   this.document.getElementById("make-pizza").addEventListener("submit", pizzaCreation)
+  this.document.getElementById("pizza-div").classList.add("hidden");
 });
