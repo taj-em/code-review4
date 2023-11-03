@@ -3,8 +3,8 @@ function DataBase() {
   this.currentId = 0;
 }
 
-DataBase.prototype.addAccount = function (order) {
-  bankAccount.id = this.assignId();
+DataBase.prototype.addOrder = function (order) {
+  order.id = this.assignId();
   this.orders[order.id] = order;
 }
 
@@ -13,15 +13,38 @@ DataBase.prototype.assignId = function () {
   return this.currentId;
 }
 
-function NewOrder(orderName, toppings, size) {
+function Order(orderName, orderSize, toppingObj) {
   this.orderName = orderName;
-  this.toppings = toppings;
-  this.size = size;
+  this.toppingObj = toppingObj;
+  this.orderSize = orderSize;
 }
 
-NewOrder.prototype.calcPrice = function() {
+Order.prototype.calcPrice = function() {
   const toppings = this.toppings;
   const size = this.size;
   let price = toppings + size;
   return price;
 }
+
+function makeOrder(orderName, orderSize, toppingObj) {
+  let newOrder = new Order(orderName, orderSize, toppingObj);
+  dataBase.addOrder(newOrder);
+}
+
+let dataBase = new DataBase();
+
+function handleSubmission(event) {
+event.preventDefault();
+const orderName = document.getElementById("order-name").value;
+const orderSize = document.querySelector("input[name='order-size']:checked").value;
+const toppings = document.querySelectorAll(".topping");
+let toppingObj = {};
+for (let index = 0; index < toppings.length; index += 1) {
+  toppingObj[index] = toppings[index].value;
+}
+makeOrder(orderName, orderSize, toppingObj);
+}
+
+window.addEventListener("load", function() {
+  this.document.getElementById("make-order").addEventListener("submit", handleSubmission)
+});

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <link href="css/styles.css" rel="stylesheet">
+  <script src="js/scripts.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza Parlor</title>
+</head>
+
+<body>
+  <h1>Pizza Parlor</h1>
+  <form id="make-order">
+    <input type="text" id="order-name" placeholder="Enter Your Name:">
+    <br>
+    <label for="18-inch">
+      <input type="radio" id="18-inch" value="8" name="order-size" checked>18 Inch:
+    </label>
+    <label for="14-inch">
+      <input type="radio" id="14-inch" value="" name="order-size">14 Inch:
+    </label>
+    <br>
+    <label for="xtra-cheese">Extra Cheese
+      <input type="checkbox" id="xtra-cheese" value=".5" class="topping">
+    </label>
+    <label for="pepperoni">Pepperoni
+      <input type="checkbox" id="pepperoni" value="1" class="topping">
+    </label>
+    <label for="sausage">Sausage
+      <input type="checkbox" id="sausage" value="2" class="topping">
+    </label>
+    <button type="submit">Confirm Order</button>
+  </form>
+</body>
+
+</html>
